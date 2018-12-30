@@ -1,23 +1,24 @@
 import $ from 'jquery';
 import {parseCode} from './code-analyzer';
-import {substitutedCode} from './substitute';
-import {codeView} from './code-view';
+import {createGraph} from './graph-generator';
+import {colorGraph} from './graph-color';
+import {buildGraph} from './graph-builder';
+import {Module, render } from 'viz.js/full.render.js';
+import Viz from 'viz.js';
+
 
 $(document).ready(function () {
-    $('#codeSubmissionButton').click(() => {
-        let originCodeInput = $('#originCodeInput').val().replace('    \n', '');
-        originCodeInput = originCodeInput.replace(/[\r\n]+/g, '\r\n');
-        originCodeInput = originCodeInput.replace(/[\r\n]+/g, '\r\n');
-        originCodeInput = originCodeInput.replace('\r\n{','{');
-        originCodeInput = originCodeInput.replace('}\r\n','}');
-        let ansNoEvalAndArgs = substitutedCode(parseCode(originCodeInput), {}, '', false);
-
-        let funcArgsInput = $('#funcArgsInput').val();
-        let ansWithEvalAndArgs = substitutedCode(parseCode(originCodeInput),{} ,funcArgsInput, true);
-        $('#substituteParsedCodeResult').val(JSON.stringify(ansNoEvalAndArgs['newJson'], null, 2));
-        let codeViewResult = codeView(ansNoEvalAndArgs['newJson'], ansWithEvalAndArgs['greenLines'], ansWithEvalAndArgs['redLines'], ansNoEvalAndArgs['listRowsToIgnore']);
-        $('#substituteCodeResult').empty();
-        for(let i= 0; i < codeViewResult.length; i++)
-            $('#substituteCodeResult').append('<span style="color:' + codeViewResult[i].color + ';">' + codeViewResult[i].line + '</span><br>');
+    $('#createGraphButton').click(() => {
+        let parsedCode = parseCode($('#originCodeInput').val());
+        let funcArgsInput =$('#funcArgsInput').val();
+        let graphNodes = createGraph(parsedCode);
+        let fillShapes = colorGraph(graphNodes, funcArgsInput, parsedCode);
+        let ans = buildGraph(graphNodes, fillShapes);
+        let viz = new Viz({Module, render });
+        let graph = document.getElementById('graphResult');
+        viz.renderSVGElement( ans).then(function (element) {
+            graph.innerHTML ='';
+            graph.append(element);
+        });
     });
 });

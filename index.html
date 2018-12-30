@@ -29,47 +29,32 @@
         </td>
         <td>
             <div>
-                <label>Origin Parsed code</label>
-            </div>
-        </td>
-        <td>
-            <div>
-                <label>After Substitution code</label>
-            </div>
-        </td>
-        <td>
-            <div>
-                <label>After Substitution Parsed code</label>
+                <label>Graph</label>
             </div>
         </td>
     </tr>
     <tr>
         <td>
             <div class="textAreaWrapper">
-                <textarea id="originCodeInput" title="Enter code here"></textarea>
+                <textarea id="originCodeInput" title="Enter code here">function foo(x){
+let a =0;
+while(x[2] > a){
+a = a + 2;
+}
+return a;
+}
+</textarea>
             </div>
         </td>
         <td>
-            <div class="textAreaWrapper">
-                <textarea id="originParsedCodeResult">
-                </textarea>
-            </div>
-        </td>
-        <td>
-            <div id="substituteCodeResult">
-            </div>
-        </td>
-        <td>
-            <div class="textAreaWrapper">
-                <textarea id="substituteParsedCodeResult">
-                </textarea>
+            <div id="graphResult">
             </div>
         </td>
     </tr>
     <tr>
         <td>
             <div>
-                <textarea id="funcArgsInput" title="Enter arguments here"></textarea>
+                <textarea id="funcArgsInput" title="Enter arguments here">[1,2,3]</textarea>
             </div>
         </td>
         <td></td>
@@ -79,7 +64,7 @@
     <tr>
         <td>
             <div>
-                <button id="codeSubmissionButton">Substitution code</button>
+                <button id="createGraphButton">Create Graph</button>
             </div>
         </td>
         <td></td>

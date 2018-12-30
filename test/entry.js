@@ -1,1 +1,1 @@
-import './substitute.test';
+import './graph-generator.test';
